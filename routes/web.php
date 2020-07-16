@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 
 Route::resource('api/user', 'UserController')->middleware(Cors::class);  
-Route::put('api/user', 'UserController@updating')->middleware(Cors::class);
+Route::put('api/user/update', 'UserController@updating')->middleware(Cors::class);
 Route::post('api/user/register', 'UserController@register')->middleware(Cors::class);
 
 
