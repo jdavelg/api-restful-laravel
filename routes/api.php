@@ -27,7 +27,7 @@ Route::get('/', function () {
 Route::resource('api/user', 'UserController');  
 
 Route::post('api/user/register', 'UserController@register');
-
+Route::put('api/user/update', 'UserController@updating');
 
 Route::post('api/user/login', 'UserController@login')->name('user.login');
 
