@@ -2,7 +2,7 @@
 
 use App\Http\Middleware\ApiAuthMiddleware;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\Cors;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,25 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 
-Route::resource('api/user', 'UserController');  
+Route::resource('api/user', 'UserController')->middleware(Cors::class);  
 
-Route::post('api/user/register', 'UserController@register');
+Route::post('api/user/register', 'UserController@register')->middleware(Cors::class);
 
 
-Route::post('api/user/login', 'UserController@login')->name('user.login');
+Route::post('api/user/login', 'UserController@login')->name('user.login')->middleware(Cors::class);
 
-Route::post('api/user/upload',  'UserController@upload')->middleware(ApiAuthMiddleware::class);
-Route::get('api/user/avatar/{filename}',  'UserController@getImage');
-Route::get('api/user/detail/{id}',  'UserController@detail');
+Route::post('api/user/upload',  'UserController@upload')->middleware(ApiAuthMiddleware::class, Cors::class);
+Route::get('api/user/avatar/{filename}',  'UserController@getImage')->middleware(Cors::class);
+Route::get('api/user/detail/{id}',  'UserController@detail')->middleware(Cors::class);
 
-Route::resource('api/category', 'CategoryController');
-Route::resource('api/post', 'PostController');
-Route::post('api/post/upload', 'PostController@upload');
-Route::get('api/post/image/{filename}', 'PostController@getImage');
-Route::get('api/post/category/{id}', 'PostController@getPostsByCategory');
-Route::get('api/post/user/{id}', 'PostController@getPostsByUser');
+Route::resource('api/category', 'CategoryController')->middleware(Cors::class);
+Route::resource('api/post', 'PostController')->middleware(Cors::class);
+Route::post('api/post/upload', 'PostController@upload')->middleware(Cors::class);
+Route::get('api/post/image/{filename}', 'PostController@getImage')->middleware(Cors::class);
+Route::get('api/post/category/{id}', 'PostController@getPostsByCategory')->middleware(Cors::class);
+Route::get('api/post/user/{id}', 'PostController@getPostsByUser')->middleware(Cors::class);
