@@ -404,6 +404,78 @@ public function detail($id){
 
     return response()->json($data,$data['code']);
 }
+public function updating(Request $request)
+{
+
+    //comprobar si el usuario esta autenticado
+
+   $token= $request->header('Authorization');
+
+   $jwtAuth= new JwtAuth();
+
+   $checkToken= $jwtAuth->checkToken($token);
+//actualizar el Usuario
+/* //recoger datos por post */
+$json= $request->input('json', null);
+$params_array=json_decode($json, true);
+  
+
+if($checkToken && !empty($params_array)){
+
+
+
+//sacar usuario identificado
+$user= $jwtAuth->checkToken($token, true);
+
+//validar los datos
+
+$validate= Validator::make($params_array, [
+'name' => 'required|alpha',
+'surname' => 'required|alpha',
+'email' => 'required|email|unique:users,'.$user->sub// 
+
+
+]);
+
+
+//quitar campos a no actualizar
+unset($params_array['id']);
+unset($params_array['role']);
+unset($params_array['password']);
+unset($params_array['created_at']);
+unset($params_array['remember_token']);
+
+
+
+//actualizar usuario en Base de datos
+
+$user_update= User::where('id', $user->sub)->update($params_array); 
+
+//devolver array con resultado
+
+$data= array(
+'code'=>200,
+'status'=>'success',
+'message'=>'el usuario se actualizo correctamente',
+'user'=> $user,
+'changes'=>$params_array
+
+);
+
+
+
+   }else{
+    $data= array(
+
+        'code'=>400,
+        'status'=>'error',
+        'message'=>'el usuario no esta identificado'
+        );
+        
+   }
+
+   return response()->json($data, $data['code']);
+}
 
 
 }

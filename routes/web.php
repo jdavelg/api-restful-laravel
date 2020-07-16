@@ -20,8 +20,8 @@ Route::get('/', function () {
 });
 
 
-/* Route::resource('api/user', 'UserController')->middleware(Cors::class);   */
-Route::put('api/user', 'UserController@update')->middleware(Cors::class);
+Route::resource('api/user', 'UserController')->middleware(Cors::class);  
+Route::put('api/user', 'UserController@updating')->middleware(Cors::class);
 Route::post('api/user/register', 'UserController@register')->middleware(Cors::class);
 
 
