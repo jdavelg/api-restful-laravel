@@ -25,7 +25,11 @@ class ApiAuthMiddleware
        $checkToken= $jwtAuth->checkToken($token);
 
        if($checkToken ){
-        return $next($request);
+        return $next($request)
+        ->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, 
+        OPTIONS')
+        ->header('"Access-Control-Allow-Headers"', '*');
     }else{
         $data= array(
 
@@ -33,7 +37,11 @@ class ApiAuthMiddleware
             'status'=>'error',
             'message'=>'El usuario no esta autenticado'
             );
-            return response()->json($data, $data['code']);
+            return response()->json($data, $data['code'])
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, 
+            OPTIONS')
+            ->header('"Access-Control-Allow-Headers"', '*');
     }
     }
 }
